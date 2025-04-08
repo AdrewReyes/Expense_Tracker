@@ -1,0 +1,26 @@
+{
+  "name": "expense_tracker",
+  "version": "1.0.0",
+  "description": "The Expense Tracker Application is a web application that allows users to track their income and expenses. Users can register, log in, and manage their financial data efficiently. The application provides features to add, retrieve, and delete income and expense records, as well as download reports in Excel format.",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrewReyes/Expense_Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdrewReyes/Expense_Tracker/issues"
+  },
+  "homepage": "https://github.com/AdrewReyes/Expense_Tracker#readme",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-scripts": "^5.0.1"
+  }
+}
