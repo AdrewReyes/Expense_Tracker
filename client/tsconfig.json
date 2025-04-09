@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ES2020", // Use modern JavaScript features
+      "module": "ESNext", // Use ES module syntax
+      "moduleResolution": "Node", // Resolve modules like Node.js
+      "jsx": "react-jsx", // Enable JSX support for React
+      "outDir": "./dist", // Output directory for compiled files
+      "rootDir": "./src", // Root directory of source files
+      "strict": true, // Enable strict type-checking
+      "esModuleInterop": true, // Enable compatibility with CommonJS modules
+      "skipLibCheck": true, // Skip type-checking of declaration files
+      "forceConsistentCasingInFileNames": true // Enforce consistent casing in imports
+    },
+    "include": ["src/**/*"], // Include all files in the `src` directory
+    "exclude": ["node_modules", "dist"] // Exclude `node_modules` and `dist` directories
+  }

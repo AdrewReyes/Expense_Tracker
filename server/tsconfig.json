@@ -1,28 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "baseUrl": "./",
-    "paths": {
-      "@models/*": ["src/models/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@routes/*": ["src/routes/*"],
-      "@middleware/*": ["src/middleware/*"],
-      "@config/*": ["src/config/*"]
-    },
+    "target": "ES2020", // Use modern JavaScript features
+    "module": "ESNext", // Use ES module syntax
+    "moduleResolution": "Node", // Resolve modules like Node.js
     "outDir": "./dist", // Output directory for compiled files
-    "rootDir": "./src", // Root directory for source files
-    "strict": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "allowJs": true,
-    "checkJs": true,
-    "skipLibCheck": true
+    "rootDir": "./src", // Root directory of source files
+    "strict": true, // Enable strict type-checking
+    "esModuleInterop": true, // Enable compatibility with CommonJS modules
+    "skipLibCheck": true, // Skip type-checking of declaration files
+    "forceConsistentCasingInFileNames": true // Enforce consistent casing in imports
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"], // Include all files in the `src` directory
+  "exclude": ["node_modules", "dist"] // Exclude `node_modules` and `dist` directories
 }
