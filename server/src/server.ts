@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import {  urlencoded } from "body-parser";
 import sequelize from "./config/db.js";
+import User from "./models/user.js";
 import apiRoutes from "./routes/api/index.js"; // Import the combined API routes
 
 // Load environment variables
@@ -38,3 +39,12 @@ app.use("/api", apiRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+(async () => {
+  try {
+    await sequelize.sync({ force: false }); // Set `force: true` to recreate the table
+    console.log("Database synchronized successfully.");
+  } catch (error) {
+    console.error("Error synchronizing the database:", error);
+  }
+})();

@@ -13,26 +13,28 @@ export const registerUser = async (req: Request, res: Response) => {
   const { fullName, email, password, profileImageUrl } = req.body;
 
   if (!fullName || !email || !password) {
+    console.log("Missing required fields:", { fullName, email, password });
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
-    // Check if email already exists
+    console.log("Checking if email already exists:", email);
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
+      console.log("Email already in use:", email);
       return res.status(400).json({ message: "Email already in use" });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the user
+    console.log("Creating user...");
     const user = await User.create({
       fullName,
       email,
-      password: hashedPassword,
+      password,
       profileImageUrl,
     });
+
+    console.log("User created successfully:", user);
 
     res.status(201).json({
       id: user.id,
@@ -40,6 +42,7 @@ export const registerUser = async (req: Request, res: Response) => {
       token: generateToken(user.id),
     });
   } catch (err) {
+    console.error("Error during user registration:", err);
     const errorMessage = err instanceof Error ? err.message : "Unknown error";
     res.status(500).json({ message: "Server Error", error: errorMessage });
     return;
@@ -58,12 +61,12 @@ export const loginUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid password" });
     }
 
     res.status(200).json({
