@@ -1,14 +1,13 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import Input from "../Inputs/Input";
-import EmojiPickerPopup from "../EmojiPickerPopup";
 
 const AddIncomeForm = ({ onAddIncome }) => {
   const [income, setIncome] = useState({
     source: "",
     amount: "",
     date: "",
-    icon: "",
+    icon: "", // You can remove this if no longer needed
   });
 
   const handleChange = (key, value) => {
@@ -20,11 +19,7 @@ const AddIncomeForm = ({ onAddIncome }) => {
 
   return (
     <div>
-      <EmojiPickerPopup
-        icon={income.icon}
-        onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
-      />
-
+      {/* Remove EmojiPickerPopup */}
       <Input
         value={income.source}
         onChange={({ target }) => handleChange("source", target.value)}
@@ -45,36 +40,8 @@ const AddIncomeForm = ({ onAddIncome }) => {
         value={income.date}
         onChange={({ target }) => handleChange("date", target.value)}
         label="Date"
-        placeholder=""
         type="date"
       />
-
-      <div className="flex justify-end mt-6">
-        <button
-          type="button"
-          className="add-btn add-btn-fill"
-          onClick={() => {
-            if (!income.source.trim()) {
-              alert("Income source is required.");
-              return;
-            }
-
-            if (!income.amount || isNaN(income.amount) || income.amount <= 0) {
-              alert("Amount must be a valid number greater than 0.");
-              return;
-            }
-
-            if (!income.date) {
-              alert("Date is required.");
-              return;
-            }
-
-            onAddIncome(income);
-          }}
-        >
-          Add Income
-        </button>
-      </div>
     </div>
   );
 };
