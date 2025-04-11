@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import Input from "../Inputs/Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
 
-const AddIncomeForm = ({onAddIncome}) => {
+const AddIncomeForm = ({ onAddIncome }) => {
   const [income, setIncome] = useState({
     source: "",
     amount: "",
@@ -10,7 +11,12 @@ const AddIncomeForm = ({onAddIncome}) => {
     icon: "",
   });
 
-  const handleChange = (key, value) => setIncome({ ...income, [key]: value });
+  const handleChange = (key, value) => {
+    setIncome({
+      ...income,
+      [key]: key === "amount" ? Number(value) : value, // Convert amount to a number
+    });
+  };
 
   return (
     <div>
@@ -47,13 +53,34 @@ const AddIncomeForm = ({onAddIncome}) => {
         <button
           type="button"
           className="add-btn add-btn-fill"
-          onClick={()=>onAddIncome(income)}
+          onClick={() => {
+            if (!income.source.trim()) {
+              alert("Income source is required.");
+              return;
+            }
+
+            if (!income.amount || isNaN(income.amount) || income.amount <= 0) {
+              alert("Amount must be a valid number greater than 0.");
+              return;
+            }
+
+            if (!income.date) {
+              alert("Date is required.");
+              return;
+            }
+
+            onAddIncome(income);
+          }}
         >
           Add Income
         </button>
       </div>
     </div>
   );
+};
+
+AddIncomeForm.propTypes = {
+  onAddIncome: PropTypes.func.isRequired,
 };
 
 export default AddIncomeForm;

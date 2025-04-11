@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import AuthLayout from "../../components/Layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
@@ -8,6 +8,7 @@ import { API_PATHS } from "../../utils/apiPaths";
 import uploadImage from "../../utils/uploadImage";
 import { UserContext } from "../../context/UserContext";
 import axiosInstance from "../../utils/axiosInstance";
+import axios from "axios";
 
 const SignUpForm = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -50,7 +51,7 @@ const SignUpForm = () => {
         try {
           const imgUploadRes = await uploadImage(profilePic);
           profileImageUrl = imgUploadRes.imageUrl || "";
-        } catch (uploadError) {
+        } catch {
           setError("Failed to upload profile picture. Please try again.");
           return;
         }

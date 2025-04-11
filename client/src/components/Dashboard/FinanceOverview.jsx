@@ -1,30 +1,63 @@
-import React from "react";
-import CustomPieChart from "../charts/CustomPieChart";
+import PropTypes from "prop-types";
+import TransactionInfoCard from "../cards/TransactionInfoCard";
+import moment from "moment";
+import { LuDownload } from "react-icons/lu";
 
-const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
-  const COLORS = ["#875CF5", "#FA2C37", "#FF6900"];
-
-  const balanceData = [
-    { name: "Total Balance", amount: totalBalance },
-    { name: "Total Expenses", amount: totalExpense },
-    { name: "Total Income", amount: totalIncome },
-  ];
-
+const ExpenseList = ({ transactions, onDelete, onDownload }) => {
   return (
     <div className="card">
-      <div className="flex items-center justify-between ">
-        <h5 className="text-lg">Financial Overview</h5>
+      <div className="flex items-center justify-between">
+        <h5 className="text-lg">All Expenses</h5>
+
+        <button
+          className="card-btn"
+          onClick={onDownload}
+          aria-label="Download Expenses"
+        >
+          <LuDownload className="text-base" /> Download
+        </button>
       </div>
 
-      <CustomPieChart
-        data={balanceData}
-        label="Total Balance"
-        totalAmount={`$${totalBalance}`}
-        colors={COLORS}
-        showTextAnchor
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        {transactions?.length > 0 ? (
+          transactions.map((expense, index) => (
+            <TransactionInfoCard
+              key={expense.id || expense._id || index}
+              title={expense.category}
+              icon={expense.icon}
+              date={moment(expense.date).format("Do MMM YYYY")}
+              amount={expense.amount}
+              type="expense"
+              onDelete={() => onDelete(expense.id || expense._id)}
+            />
+          ))
+        ) : (
+          <p className="text-sm text-gray-500 text-center py-4">
+            No expenses available.
+          </p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default FinanceOverview;
+ExpenseList.propTypes = {
+  transactions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      _id: PropTypes.string,
+      category: PropTypes.string.isRequired,
+      icon: PropTypes.string,
+      date: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired,
+    })
+  ),
+  onDelete: PropTypes.func.isRequired,
+  onDownload: PropTypes.func.isRequired,
+};
+
+ExpenseList.defaultProps = {
+  transactions: [],
+};
+
+export default ExpenseList;

@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 import CARD_2 from "../../assets/images/card2.png";
 import { LuTrendingUpDown } from "react-icons/lu";
@@ -48,6 +48,16 @@ const StatsInfoCard = ({ icon, label, value, color }) => {
       </div>
     </div>
   );
+};
+AuthLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+StatsInfoCard.propTypes = {
+  icon: PropTypes.node.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default AuthLayout;

@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
+import PropTypes from "prop-types";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { UserContext } from "../../context/UserContext";
@@ -22,5 +23,10 @@ const DashboardLayout = ({ children, activeMenu }) => {
     </div>
   );
 };
+DashboardLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+  activeMenu: PropTypes.string.isRequired,
+};
 
 export default DashboardLayout;
+
