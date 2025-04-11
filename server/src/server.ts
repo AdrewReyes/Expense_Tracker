@@ -31,6 +31,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(morgan("dev"));
+app.use(express.static('../../client/dist'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
