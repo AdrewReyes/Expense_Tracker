@@ -11,6 +11,8 @@ import expenseRoutes from "./routes/expenseRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import apiRoutes from "./routes/api/index.js"; // Import the combined API routes
 
+
+
 // Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +22,7 @@ dotenv.config();
 
 // Initialize the app
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
