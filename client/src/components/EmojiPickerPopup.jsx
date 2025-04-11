@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import EmojiPicker from "emoji-picker-react";
 import { LuImage, LuX } from "react-icons/lu";
 
@@ -10,16 +11,25 @@ const EmojiPickerPopup = ({ icon, onSelect }) => {
       <div
         className="flex items-center gap-4 cursor-pointer"
         onClick={() => setIsOpen(true)}
+        aria-label="Open emoji picker"
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && setIsOpen(true)}
       >
         <div className="w-12 h-12 flex items-center justify-center text-2xl bg-purple-50 text-primary rounded-lg">
           {icon ? (
-            <img src={icon} alt="Icon" className="w-12 h-12" />
+            <img
+              src={icon}
+              alt="Icon"
+              className="w-12 h-12"
+              onError={(e) => (e.target.style.display = "none")}
+            />
           ) : (
             <LuImage />
           )}
         </div>
 
-        <p className="">{icon ? "Change Icon" : "Pick Icon"}</p>
+        <p>{icon ? "Change Icon" : "Pick Icon"}</p>
       </div>
 
       {isOpen && (
@@ -27,18 +37,27 @@ const EmojiPickerPopup = ({ icon, onSelect }) => {
           <button
             className="w-7 h-7 flex items-center justify-center bg-white border border-gray-200 rounded-full absolute -top-2 -right-2 z-10 cursor-pointer"
             onClick={() => setIsOpen(false)}
+            aria-label="Close emoji picker"
           >
             <LuX />
           </button>
-          
+
           <EmojiPicker
-            open={isOpen}
-            onEmojiClick={(emoji) => onSelect(emoji?.imageUrl || "")}
+            onEmojiClick={(emoji) => onSelect(emoji.emoji)}
           />
         </div>
       )}
     </div>
   );
+};
+
+EmojiPickerPopup.propTypes = {
+  icon: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
+};
+
+EmojiPickerPopup.defaultProps = {
+  icon: null,
 };
 
 export default EmojiPickerPopup;
