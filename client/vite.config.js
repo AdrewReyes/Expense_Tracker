@@ -2,14 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   chunkSizeWarningLimit: 2000, // Increase chunk size warning limit
   build: {
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Avoid splitting into too many chunks
+        manualChunks: {
+          vendor: ['react', 'react-dom'], // Separate vendor libraries
+        },
       },
     },
   },
