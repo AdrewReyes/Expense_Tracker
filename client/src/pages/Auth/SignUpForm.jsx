@@ -26,18 +26,18 @@ const SignUpForm = () => {
 
     let profileImageUrl = "";
 
-    if (!fullName) {
+    if (!fullName.trim()) {
       setError("Please enter your name");
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.trim())) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    if (!password) {
-      setError("Please enter the password");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
@@ -47,13 +47,18 @@ const SignUpForm = () => {
     try {
       // Upload image if present
       if (profilePic) {
-        const imgUploadRes = await uploadImage(profilePic);
-        profileImageUrl = imgUploadRes.imageUrl || "";
+        try {
+          const imgUploadRes = await uploadImage(profilePic);
+          profileImageUrl = imgUploadRes.imageUrl || "";
+        } catch (uploadError) {
+          setError("Failed to upload profile picture. Please try again.");
+          return;
+        }
       }
 
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-        fullName,
-        email,
+        fullName: fullName.trim(),
+        email: email.trim(),
         password,
         profileImageUrl,
       });
@@ -64,12 +69,13 @@ const SignUpForm = () => {
         localStorage.setItem("token", token);
         updateUser(user);
         navigate("/dashboard");
+        console.log("Navigating to dashboard...");
       }
     } catch (error) {
-      if (error.response && error.response.data.message) {
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
-        setError("Something went wrong. Please try again.");
+        setError("An unexpected error occurred. Please try again.");
       }
     }
   };

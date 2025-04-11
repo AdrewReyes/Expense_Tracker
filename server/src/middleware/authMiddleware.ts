@@ -29,7 +29,14 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "") as JwtPayload;
+    let decoded: JwtPayload | null = null;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET || "") as JwtPayload;
+      console.log("Decoded Token:", decoded);
+    } catch (err) {
+      console.error("Token Verification Error:", err);
+      return res.status(401).json({ message: "Not authorized, token failed" });
+    }
 
     // Find user by ID and attach to request object
     const user = await User.findByPk(decoded.id, {
