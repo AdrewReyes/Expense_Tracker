@@ -1,15 +1,32 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  chunkSizeWarningLimit: 2000, // Increase chunk size warning limit
+  plugins: [
+    react(),
+    tailwindcss(),
+    visualizer({ open: true }), // Opens a visualization report after build
+  ],
+  chunkSizeWarningLimit: 2000,
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'], // Separate vendor libraries
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'react'; // Separate React and React-DOM
+            }
+            if (id.includes('moment')) {
+              return 'moment'; // Separate Moment.js
+            }
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString();
+          }
         },
       },
     },
