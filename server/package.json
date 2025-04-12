@@ -5,9 +5,7 @@
   "main": "dist/server.js",
   "type": "module",
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=4096 next build",
-    "build:dev": "NODE_OPTIONS=--max-old-space-size=4096 next build",
-    "build:prod": "NODE_OPTIONS=--max-old-space-size=4096 next build",
+    "build": "npx tsc",
     "start": "npm run build && node dist/server.js",
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
     "start:dev": "npm run dev",
